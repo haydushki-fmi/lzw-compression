@@ -2,22 +2,23 @@
 add_executable(test_target)
 
 target_link_libraries(
-	test_target
-	PRIVATE
-		Catch2::Catch2WithMain
+        test_target
+        PRIVATE
+                Catch2::Catch2WithMain
 )
 
 # Currently all .cpp files are listed here.
 # You may want to switch to a more flexible configuration if you work with a large number of packages/files
 target_sources(
-	test_target
-	PRIVATE
+        test_target
+        PRIVATE
+        common_data_structures/SetFactoryTests.cpp
 )
 
 target_include_directories(
-	test_target
-	PRIVATE
-		${CMAKE_SOURCE_DIR}/src
+        test_target
+        PRIVATE
+                ${CMAKE_SOURCE_DIR}/src
 )
 
 # Automatically register all tests

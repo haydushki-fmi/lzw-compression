@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.13)
 # Project information and configuration
 project ("LZW compression project" VERSION 1.0)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Options and cache variables controlling how the project is built
