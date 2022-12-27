@@ -8,3 +8,5 @@
 # CMake local configuration options
 CMakeUserPresets.json
 
+# Dolphin file manager
+.directory
