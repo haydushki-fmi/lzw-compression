@@ -13,6 +13,7 @@ target_sources(
         test_target
         PRIVATE
         common_data_structures/SetFactoryTests.cpp
+        common_data_structures/BTreeNodeTests.cpp
 )
 
 target_include_directories(

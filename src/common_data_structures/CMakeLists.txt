@@ -7,4 +7,5 @@ target_sources(
         Set.hpp
         SetFactory.hpp
         SetFactory.cpp
+        implementations/BTreeNode.hpp
 )
