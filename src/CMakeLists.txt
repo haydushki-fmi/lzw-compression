@@ -1,1 +1,2 @@
 add_subdirectory(common_data_structures)
+add_subdirectory(compression)
