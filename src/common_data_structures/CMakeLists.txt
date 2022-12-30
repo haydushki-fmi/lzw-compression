@@ -8,4 +8,5 @@ target_sources(
         SetFactory.hpp
         SetFactory.cpp
         implementations/BTreeNode.hpp
+        implementations/StdSetWrapper.hpp
 )

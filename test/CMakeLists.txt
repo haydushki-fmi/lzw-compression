@@ -14,6 +14,7 @@ target_sources(
         PRIVATE
         common_data_structures/SetFactoryTests.cpp
         common_data_structures/BTreeNodeTests.cpp
+        common_data_structures/StdSetWrapperTests.cpp
 )
 
 target_include_directories(
