@@ -5,6 +5,7 @@ target_link_libraries(
         test_target
         PRIVATE
                 Catch2::Catch2WithMain
+                compression
 )
 
 # Currently all .cpp files are listed here.
@@ -17,11 +18,14 @@ target_sources(
         common_data_structures/StdSetWrapperTests.cpp
 )
 
+
 target_include_directories(
         test_target
         PRIVATE
                 ${CMAKE_SOURCE_DIR}/src
 )
+
+add_subdirectory(compression)
 
 # Automatically register all tests
 catch_discover_tests(test_target)

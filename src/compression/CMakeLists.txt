@@ -9,4 +9,6 @@ target_sources(
         CompressorFactory.cpp
         DecompressorFactory.hpp
         DecompressorFactory.cpp
+        implementations/LZWCompressor.cpp
+        implementations/LZWCompressor.hpp
 )
