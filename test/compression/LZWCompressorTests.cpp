@@ -86,3 +86,55 @@ TEST_CASE("LZWCompressor::compress() correctly compresses a simple string",
         CHECK(res == expectedCodes[i]);
     }
 }
+
+TEST_CASE("LZWCompressor::decompress() throws when given stream is not in good state",
+          "[compression][lzw-compression]")
+{
+    std::istringstream inputStream;
+    std::ostringstream outputStream;
+    compression_implementations::LZWCompressor comp;
+
+    SECTION("fail state for inputStream")
+    {
+        inputStream.setstate(std::ios_base::failbit);
+
+        CHECK_THROWS_AS(comp.decompress(inputStream, 0, outputStream), std::runtime_error);
+    }
+
+    SECTION("fail state for outputStream")
+    {
+        outputStream.setstate(std::ios_base::failbit);
+
+        CHECK_THROWS_AS(comp.decompress(inputStream, 0, outputStream), std::runtime_error);
+    }
+
+    SECTION("bad state for inputStream")
+    {
+        inputStream.setstate(std::ios_base::badbit);
+
+        CHECK_THROWS_AS(comp.decompress(inputStream, 0, outputStream), std::runtime_error);
+    }
+
+    SECTION("bad state for outputStream")
+    {
+        outputStream.setstate(std::ios_base::badbit);
+
+        CHECK_THROWS_AS(comp.decompress(inputStream, 0, outputStream), std::runtime_error);
+    }
+}
+
+TEST_CASE("LZWCompressor::decompress() can decompreess a LZW compressed string",
+          "[compression][lzw-compression]")
+{
+    std::string originalString = "abababab";
+    std::istringstream compressionIn(originalString);
+    std::ostringstream compressionOut(std::ios_base::ate);
+    compression_implementations::LZWCompressor comp;
+    comp.compress(compressionIn, compressionOut);
+
+    std::istringstream inputToDecompress(compressionOut.str());
+    std::ostringstream outputDecompressed(std::ios_base::ate);
+    comp.decompress(inputToDecompress, 10, outputDecompressed); // NOTE: It works with just 8 bytes?
+
+    CHECK(outputDecompressed.str() == originalString);
+}

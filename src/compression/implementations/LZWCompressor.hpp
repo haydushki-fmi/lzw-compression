@@ -32,6 +32,12 @@ private:
      * @param dictionary Dictionary to act upon.
      */
     void resetDictionaryContents(std::map<std::vector<char>, CodeType> &dictionary);
+
+    /**
+     * @brief Sets the dictionary contents to the first 255 single char strings.
+     * @param dictionary Dictionary to act upon.
+     */
+    void resetDictionaryContents(std::vector<std::vector<char>> &dictionary);
 };
 
 } // namespace compression_implementations

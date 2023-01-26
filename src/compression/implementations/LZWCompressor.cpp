@@ -58,7 +58,67 @@ void compression_implementations::LZWCompressor::resetDictionaryContents(
     }
 }
 
-
-void compression_implementations::LZWCompressor::decompress(std::istream &in, unsigned int bytesToRead, std::ostream &out)
+void compression_implementations::LZWCompressor::resetDictionaryContents(
+    std::vector<std::vector<char>> &dictionary)
 {
+    dictionary.clear();
+    dictionary.reserve(this->dictionaryMaxSize);
+
+    const long int minc = std::numeric_limits<char>::min();
+    const long int maxc = std::numeric_limits<char>::max();
+
+    for (long int c = minc; c <= maxc; ++c)
+        dictionary.push_back({static_cast<char>(c)});
+}
+
+/**
+ * @brief Helper operator which adds a char to a char vector.
+ * @param vc Vector to add to.
+ * @param c Char to be added.
+ * @return Resulting vector from appending c to vc
+ */
+std::vector<char> &operator+(std::vector<char> &vc, char c)
+{
+    vc.push_back(c);
+    return vc;
+}
+
+void compression_implementations::LZWCompressor::decompress(std::istream &in,
+                                                            unsigned int bytesToRead,
+                                                            std::ostream &out)
+{
+    if (!in.good()) {
+        throw std::runtime_error("Error reading input data!");
+    }
+
+    if (!out.good()) {
+        throw std::runtime_error("Error in output stream!");
+    }
+
+    // Initialize dictionary
+    std::vector<std::vector<char>> dictionary;
+    this->resetDictionaryContents(dictionary);
+
+    std::vector<char> currentString;
+    CodeType currentKey;
+    unsigned int bytesRead = 0;
+
+    while (in.read(reinterpret_cast<char *>(&currentKey), sizeof(CodeType))
+           && bytesRead <= bytesToRead) {
+        bytesRead += sizeof(CodeType);
+        // Reset the dictionary codes if full
+        if (dictionary.size() == this->dictionaryMaxSize)
+            this->resetDictionaryContents(dictionary);
+
+        if (currentKey > dictionary.size())
+            throw std::runtime_error("Invalid compressed code");
+
+        if (currentKey == dictionary.size())
+            dictionary.push_back(currentString + currentString.front());
+        else if (!currentString.empty())
+            dictionary.push_back(currentString + dictionary.at(currentKey).front());
+
+        out.write(&dictionary.at(currentKey).front(), dictionary.at(currentKey).size());
+        currentString = dictionary.at(currentKey);
+    }
 }
