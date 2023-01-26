@@ -22,6 +22,7 @@ public:
     // Compressor interface
 public:
     void compress(std::istream &in, std::ostream &out) override;
+    void decompress(std::istream &in, unsigned int bytesToRead, std::ostream &out) override;
 
 private:
     const CodeType dictionaryMaxSize{std::numeric_limits<CodeType>::max()};

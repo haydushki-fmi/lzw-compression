@@ -57,3 +57,8 @@ void compression_implementations::LZWCompressor::resetDictionaryContents(
         dictionary[{static_cast<char>(c)}] = dictionarySize;
     }
 }
+
+
+void compression_implementations::LZWCompressor::decompress(std::istream &in, unsigned int bytesToRead, std::ostream &out)
+{
+}
