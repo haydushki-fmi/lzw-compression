@@ -98,6 +98,9 @@ public:
         }
     }
 
+    auto begin() { return this->data.begin(); }
+    auto end() { return this->data.end(); }
+
 private:
     std::set<T *> data;
 };
