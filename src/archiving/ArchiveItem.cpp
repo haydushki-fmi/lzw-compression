@@ -1,13 +1,15 @@
 #include "ArchiveItem.hpp"
 
 namespace archiving {
-ArchiveItem::ArchiveItem(const std::string &filePath,
+ArchiveItem::ArchiveItem(const std::string &pathOnDisk,
+                         const std::string &realativeArchivePath,
                          std::filesystem::file_type type,
                          bool isCompressed,
-                         unsigned int rawSize,
-                         unsigned int compressedSize,
-                         unsigned int fileStartingPosition)
-    : filePath(filePath)
+                         uint64_t rawSize,
+                         uint64_t compressedSize,
+                         uint64_t fileStartingPosition)
+    : pathOnDisk(pathOnDisk)
+    , realativeArchivePath(realativeArchivePath)
     , type(type)
     , isCompressed(isCompressed)
     , rawSize(rawSize)
@@ -17,17 +19,17 @@ ArchiveItem::ArchiveItem(const std::string &filePath,
 
 bool ArchiveItem::operator<(const ArchiveItem &other) const
 {
-    return this->filePath < other.filePath;
+    return this->realativeArchivePath < other.realativeArchivePath;
 }
 
 bool ArchiveItem::operator==(const ArchiveItem &other) const
 {
-    return this->filePath == other.filePath;
+    return this->realativeArchivePath == other.realativeArchivePath;
 }
 
 std::string ArchiveItem::getFilePath() const
 {
-    return this->filePath;
+    return this->pathOnDisk;
 }
 
 bool ArchiveItem::getIsCompressed() const
@@ -40,32 +42,32 @@ void ArchiveItem::setIsCompressed(bool newIsCompressed)
     this->isCompressed = newIsCompressed;
 }
 
-unsigned int ArchiveItem::getRawSize() const
+uint64_t ArchiveItem::getRawSize() const
 {
     return this->rawSize;
 }
 
-void ArchiveItem::setRawSize(unsigned int newRawSize)
+void ArchiveItem::setRawSize(uint64_t newRawSize)
 {
     this->rawSize = newRawSize;
 }
 
-unsigned int ArchiveItem::getCompressedSize() const
+uint64_t ArchiveItem::getCompressedSize() const
 {
     return this->compressedSize;
 }
 
-void ArchiveItem::setCompressedSize(unsigned int newCompressedSize)
+void ArchiveItem::setCompressedSize(uint64_t newCompressedSize)
 {
     this->compressedSize = newCompressedSize;
 }
 
-unsigned int ArchiveItem::getFileStartingPosition() const
+uint64_t ArchiveItem::getFileStartingPosition() const
 {
     return this->fileStartingPosition;
 }
 
-void ArchiveItem::setFileStartingPosition(unsigned int newFileStartingPosition)
+void ArchiveItem::setFileStartingPosition(uint64_t newFileStartingPosition)
 {
     this->fileStartingPosition = newFileStartingPosition;
 }
@@ -73,6 +75,11 @@ void ArchiveItem::setFileStartingPosition(unsigned int newFileStartingPosition)
 std::filesystem::file_type ArchiveItem::getType() const
 {
     return this->type;
+}
+
+std::string ArchiveItem::getFileRelativePath() const
+{
+    return this->realativeArchivePath;
 }
 
 } // namespace archiving
