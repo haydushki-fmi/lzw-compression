@@ -264,9 +264,19 @@ private:
         return absolutePath.string().substr(absolutePath.string().find(trimmedPath));
     }
 
+    /**
+     * @brief Adds a single regular file to the set of files.
+     * @param filePath Path to file to add
+     */
     void addFile(const fs::path &filePath)
     {
-        // TODO: implement
+        this->set.insert(ArchiveItem(filePath.string(),
+                                     trimParentPath(filePath, filePath),
+                                     fs::file_type::regular,
+                                     false,
+                                     0,
+                                     0,
+                                     0));
     }
 
 private:
