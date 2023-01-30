@@ -20,10 +20,8 @@ class FileSystem
 {
 public:
     FileSystem()
-    {
-        // TODO: Use SetFactory after it's refactor
-        this->set = new SetType;
-    }
+        : set(SetType())
+    {}
 
     FileSystem(const FileSystem<SetType> &other) = delete;
     FileSystem<SetType> &operator=(const FileSystem<SetType> &other) = delete;
@@ -66,7 +64,7 @@ public:
 
     void archiveAllItems(const std::string &archiveName) const
     {
-        for (auto item : *(this->set)) {
+        for (const auto &item : this->set) {
             //do stuff
         }
     }
@@ -77,14 +75,11 @@ public:
     void printAllItems() const
     {
         std::cout << "Files list:" << std::endl;
-        for (auto item : *(this->set)) {
+        for (const auto item : this->set) {
             std::cout << item->getFileRelativePath() << "\t->\t" << item->getFilePath()
                       << std::endl;
         }
     }
-
-public:
-    ~FileSystem() { delete this->set; }
 
 private:
     /**
@@ -99,13 +94,13 @@ private:
             switch (type) {
             case fs::file_type::directory:
             case fs::file_type::regular: {
-                this->set->insert(ArchiveItem(currentPath.string(),
-                                              trimParentPath(currentPath, dirPath),
-                                              type,
-                                              false,
-                                              0,
-                                              0,
-                                              0));
+                this->set.insert(ArchiveItem(currentPath.string(),
+                                             trimParentPath(currentPath, dirPath),
+                                             type,
+                                             false,
+                                             0,
+                                             0,
+                                             0));
                 break;
             }
             default:
@@ -134,7 +129,7 @@ private:
     }
 
 private:
-    SetType *set;
+    SetType set;
 };
 
 } // namespace archiving
