@@ -17,6 +17,28 @@ ArchiveItem::ArchiveItem(const std::string &pathOnDisk,
     , fileStartingPosition(fileStartingPosition)
 {}
 
+ArchiveItem::ArchiveItem(std::istream &input)
+{
+    if (!input.good()) {
+        throw std::runtime_error("Error in output stream!");
+    }
+
+    std::size_t pathSize;
+    input.read((char *) &pathSize, sizeof(pathSize));
+
+    char *path = new char[pathSize + 1];
+    input.read((char *) path, pathSize);
+    path[pathSize] = '\0';
+    this->realativeArchivePath = std::string(path);
+    delete[] path;
+
+    this->isCompressed = true;
+    input.read((char *) &this->type, sizeof(this->type));
+    input.read((char *) &this->fileStartingPosition, sizeof(this->fileStartingPosition));
+    input.read((char *) &this->compressedSize, sizeof(this->compressedSize));
+    input.read((char *) &this->rawSize, sizeof(this->rawSize));
+}
+
 bool ArchiveItem::operator<(const ArchiveItem &other) const
 {
     return this->realativeArchivePath < other.realativeArchivePath;

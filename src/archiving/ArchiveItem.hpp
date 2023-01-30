@@ -30,6 +30,11 @@ public:
                 uint64_t rawSize,
                 uint64_t compressedSize,
                 uint64_t fileStartingPosition);
+    /**
+     * @brief Createas a new ArchiveItem from data read from input stream.
+     * @param input Stream to read data from
+     */
+    ArchiveItem(std::istream &input);
 
 public:
     /**
