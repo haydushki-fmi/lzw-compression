@@ -99,10 +99,18 @@ public:
         compression_implementations::LZWCompressor compressor;
         auto currentItemPosition = output.tellp();
         for (auto item : this->set) {
+            if (item->getType() != fs::file_type::regular) {
+                continue;
+            }
             item->setFileStartingPosition(currentItemPosition);
 
             std::ifstream fileDataInput;
             fileDataInput.open(item->getFilePath());
+
+            fileDataInput.seekg(0, std::ios::end);
+            item->setRawSize(fileDataInput.tellg());
+            fileDataInput.seekg(0, std::ios::beg);
+
             compressor.compress(fileDataInput, output);
             fileDataInput.close();
 
