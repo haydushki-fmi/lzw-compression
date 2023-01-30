@@ -105,6 +105,12 @@ public:
      */
     std::filesystem::file_type getType() const;
 
+    /**
+     * @brief Writes the item's data to the given output stream.
+     * @param out Stream to write to
+     */
+    void writeToStream(std::ostream &out) const;
+
 private:
     /**
      * @brief Stores location of the file on the system.

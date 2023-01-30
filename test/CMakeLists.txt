@@ -6,6 +6,7 @@ target_link_libraries(
         PRIVATE
                 Catch2::Catch2WithMain
                 compression
+                archiving
 )
 
 # Currently all .cpp files are listed here.
@@ -26,6 +27,7 @@ target_include_directories(
 )
 
 add_subdirectory(compression)
+add_subdirectory(archiving)
 
 # Automatically register all tests
 catch_discover_tests(test_target)

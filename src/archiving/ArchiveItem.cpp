@@ -82,4 +82,19 @@ std::string ArchiveItem::getFileRelativePath() const
     return this->realativeArchivePath;
 }
 
+void ArchiveItem::writeToStream(std::ostream &out) const
+{
+    if (!out.good()) {
+        throw std::runtime_error("Error in output stream!");
+    }
+    std::size_t pathSize = this->realativeArchivePath.size();
+    out.write(reinterpret_cast<const char *>(&pathSize), sizeof(std::size_t));
+    out.write(reinterpret_cast<const char *>(this->realativeArchivePath.c_str()), pathSize);
+    out.write(reinterpret_cast<const char *>(&this->type), sizeof(this->type));
+    out.write(reinterpret_cast<const char *>(&this->fileStartingPosition),
+              sizeof(this->fileStartingPosition));
+    out.write(reinterpret_cast<const char *>(&this->compressedSize), sizeof(this->compressedSize));
+    out.write(reinterpret_cast<const char *>(&this->rawSize), sizeof(this->rawSize));
+}
+
 } // namespace archiving
