@@ -100,6 +100,8 @@ public:
 
     auto begin() { return this->data.begin(); }
     auto end() { return this->data.end(); }
+    auto begin() const { return this->data.cbegin(); }
+    auto end() const { return this->data.cend(); }
 
 private:
     std::set<T *> data;
