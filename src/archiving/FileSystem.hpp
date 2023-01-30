@@ -3,7 +3,9 @@
 
 #include "archiving/ArchiveItem.hpp"
 #include "common_data_structures/SetFactory.hpp"
+#include "compression/implementations/LZWCompressor.hpp"
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -62,10 +64,149 @@ public:
         }
     }
 
+    /**
+     * @brief Creates an archive file with a given filename.
+     *
+     * Info in file is:
+     * - Number of files;
+     * - File names and other metadata;
+     * - Compressed file data.
+     *
+     * @param archiveName Name of the file to create.
+     */
     void archiveAllItems(const std::string &archiveName) const
     {
+        if (this->set.size() == 0) {
+            return;
+        }
+
+        std::ofstream output;
+        output.open(archiveName);
+        if (!output.is_open()) {
+            throw std::invalid_argument("Invalid archive name!");
+        }
+
+        // Write file count and file list
+        std::size_t setSize = this->set.size();
+        output.write(reinterpret_cast<const char *>(&setSize), sizeof(std ::size_t));
+        auto setPosition = output.tellp();
+
         for (const auto &item : this->set) {
-            //do stuff
+            item->writeToStream(output);
+        }
+
+        // Write compressed file data
+        compression_implementations::LZWCompressor compressor;
+        auto currentItemPosition = output.tellp();
+        for (auto item : this->set) {
+            item->setFileStartingPosition(currentItemPosition);
+
+            std::ifstream fileDataInput;
+            fileDataInput.open(item->getFilePath());
+            compressor.compress(fileDataInput, output);
+            fileDataInput.close();
+
+            item->setIsCompressed(true);
+            item->setCompressedSize(output.tellp() - currentItemPosition);
+            currentItemPosition = output.tellp();
+        }
+
+        // Rewrite file list with updated file sizes and starting position
+        output.seekp(setPosition);
+        for (const auto &item : this->set) {
+            item->writeToStream(output);
+        }
+
+        output.close();
+    }
+
+    /**
+     * @brief Reads file metadata from archive file.
+     * @param path Path to archive
+     */
+    void loadArchiveData(const std::string &path)
+    {
+        std::ifstream input;
+        input.open(path);
+
+        if (!input.is_open()) {
+            throw std::invalid_argument("Invalid archive name!");
+        }
+
+        std::size_t itemCount;
+        input.read((char *) &itemCount, sizeof(itemCount));
+        for (std::size_t i = 0; i < itemCount; ++i) {
+            ArchiveItem item(input);
+            this->set.insert(item);
+        }
+
+        input.close();
+    }
+
+    /**
+     * @brief Decompresses a signle file from a given archive.
+     * @param path File path/name to decompress
+     * @param archivePath Path to archive to read from
+     */
+    void decompressItem(const std::string &path, const std::string &archivePath) const
+    {
+        if (this->set.size() == 0) {
+            throw std::runtime_error("Archive is empty!");
+        }
+
+        const ArchiveItem *item = this->set.search(
+            ArchiveItem("", path, fs::file_type::regular, false, 0, 0, 0));
+        if (!item) {
+            throw std::invalid_argument("File doesn't exist in archive!");
+        }
+
+        // If it's just a directory simply create it
+        if (item->getType() == fs::file_type::directory) {
+            fs::create_directories(item->getFileRelativePath());
+            return;
+        }
+
+        std::ifstream input;
+        input.open(archivePath);
+
+        if (!input.is_open()) {
+            throw std::invalid_argument("Invalid archive name!");
+        }
+
+        input.seekg(item->getFileStartingPosition());
+
+        // If the file is inside some directories create them first before writing the file.
+        if (item->getFileRelativePath().find('/') != std::string::npos) {
+            fs::path fp(item->getFileRelativePath());
+            fs::create_directories(fp.parent_path());
+        }
+
+        std::ofstream outputFile;
+        outputFile.open(item->getFileRelativePath());
+
+        if (!outputFile.is_open()) {
+            throw std::runtime_error("Error decompressing file!");
+        }
+
+        compression_implementations::LZWCompressor compressor;
+        compressor.decompress(input, item->getCompressedSize(), outputFile);
+
+        outputFile.close();
+        input.close();
+    }
+
+    /**
+     * @brief Decompresses all files in an archive.
+     * @param archivePath Path to the archive to read from
+     */
+    void decompressAllItems(const std::string &archivePath) const
+    {
+        if (this->set.size() == 0) {
+            throw std::runtime_error("Archive is empty!");
+        }
+
+        for (const auto item : this->set) {
+            this->decompressItem(item->getFileRelativePath(), archivePath);
         }
     }
 
