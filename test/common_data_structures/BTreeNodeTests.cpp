@@ -75,6 +75,8 @@ public:
         a->children[0] = b;
         a->children[1] = c;
     }
+
+    ~sampleTree() { delete &this->root; }
 };
 
 TEST_CASE("common_data_structures_implementations::BTreeNode() constructs node with right data")
