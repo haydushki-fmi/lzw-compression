@@ -5,8 +5,7 @@ target_sources(
         PRIVATE
         Sortable.hpp
         Set.hpp
-        SetFactory.hpp
-        SetFactory.cpp
         implementations/BTreeNode.hpp
         implementations/StdSetWrapper.hpp
+        unused.cpp
 )
