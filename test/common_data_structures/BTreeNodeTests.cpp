@@ -8,18 +8,14 @@ TEST_CASE("common_data_structures_implementations::BTreeNode() constructs node w
         BTreeNode<int> node = BTreeNode<int>(5, false);
         CHECK(node.degree == 5);
         CHECK_FALSE(node.isLeaf);
-        CHECK(node.keyCount == 0);
-        CHECK(node.keys != nullptr);
-        CHECK(node.children != nullptr);
+        CHECK(node.keys.size() == 0);
     }
     SECTION("Is leaf")
     {
         BTreeNode<int> node = BTreeNode<int>(6, true);
         CHECK(node.degree == 6);
         CHECK(node.isLeaf);
-        CHECK(node.keyCount == 0);
-        CHECK(node.keys != nullptr);
-        CHECK(node.children == nullptr);
+        CHECK(node.keys.size() == 0);
     }
 }
 

@@ -28,54 +28,45 @@ public:
     SampleBTree()
     {
         //Set keys
-        a->keyCount = 1;
-        a->keys[0] = 100;
+        a->keys.push_back(100);
 
-        b->keyCount = 2;
-        b->keys[0] = 35;
-        b->keys[1] = 65;
+        b->keys.push_back(35);
+        b->keys.push_back(65);
 
-        c->keyCount = 2;
-        c->keys[0] = 130;
-        c->keys[1] = 180;
+        c->keys.push_back(130);
+        c->keys.push_back(180);
 
-        d->keyCount = 2;
-        d->keys[0] = 10;
-        d->keys[1] = 20;
+        d->keys.push_back(10);
+        d->keys.push_back(20);
 
-        e->keyCount = 2;
-        e->keys[0] = 40;
-        e->keys[1] = 50;
+        e->keys.push_back(40);
+        e->keys.push_back(50);
 
-        f->keyCount = 3;
-        f->keys[0] = 70;
-        f->keys[1] = 80;
-        f->keys[2] = 90;
+        f->keys.push_back(70);
+        f->keys.push_back(80);
+        f->keys.push_back(90);
 
-        g->keyCount = 2;
-        g->keys[0] = 110;
-        g->keys[1] = 120;
+        g->keys.push_back(110);
+        g->keys.push_back(120);
 
-        h->keyCount = 2;
-        h->keys[0] = 140;
-        h->keys[1] = 160;
+        h->keys.push_back(140);
+        h->keys.push_back(160);
 
-        i->keyCount = 3;
-        i->keys[0] = 190;
-        i->keys[1] = 240;
-        i->keys[2] = 260;
+        i->keys.push_back(190);
+        i->keys.push_back(240);
+        i->keys.push_back(260);
 
         // Set realtion
-        b->children[0] = d;
-        b->children[1] = e;
-        b->children[2] = f;
+        b->children.push_back(d);
+        b->children.push_back(e);
+        b->children.push_back(f);
 
-        c->children[0] = g;
-        c->children[1] = h;
-        c->children[2] = i;
+        c->children.push_back(g);
+        c->children.push_back(h);
+        c->children.push_back(i);
 
-        a->children[0] = b;
-        a->children[1] = c;
+        a->children.push_back(b);
+        a->children.push_back(c);
     }
 
     ~SampleBTree() { delete &this->root; }
