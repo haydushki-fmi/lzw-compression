@@ -1,7 +1,7 @@
 #ifndef STDSETWRAPPER_HPP
 #define STDSETWRAPPER_HPP
 
-#include "common_data_structures/Set.hpp"
+#include "common_data_structures/Sortable.hpp"
 #include <set>
 #include <stdexcept>
 
@@ -12,7 +12,6 @@ namespace common_data_structures_implementations {
  */
 template<class T>
 requires common_data_structures::Sortable<T> class StdSetWrapper
-    : public common_data_structures::Set<T>
 {
 public:
     StdSetWrapper() = default;
@@ -25,9 +24,8 @@ public:
         }
     }
 
-    // Set interface
 public:
-    void insert(const T &item) override
+    void insert(const T &item)
     {
         T *toAdd = new T(item);
         try {
@@ -37,9 +35,9 @@ public:
         }
     }
 
-    bool contains(const T &item) const override { return this->search(item) != nullptr; }
+    bool contains(const T &item) const { return this->search(item) != nullptr; }
 
-    void remove(const T &item) override
+    void remove(const T &item)
     {
         T *toDelete = this->search(item);
         if (toDelete) {
@@ -48,7 +46,7 @@ public:
         }
     }
 
-    const T *search(const T &item) const override
+    const T *search(const T &item) const
     {
         for (auto i : this->data) {
             if (*i == item) {
@@ -57,7 +55,7 @@ public:
         }
         return nullptr;
     }
-    T *search(const T &item) override
+    T *search(const T &item)
     {
         for (auto i : this->data) {
             if (*i == item) {
@@ -67,9 +65,9 @@ public:
         return nullptr;
     }
 
-    std::size_t size() const override { return this->data.size(); }
+    std::size_t size() const { return this->data.size(); }
 
-    const T &at(std::size_t index) const override
+    const T &at(std::size_t index) const
     {
         if (index >= this->size()) {
             throw std::invalid_argument("Index out of range!");
@@ -83,7 +81,7 @@ public:
             i++;
         }
     }
-    T &at(std::size_t index) override
+    T &at(std::size_t index)
     {
         if (index >= this->size()) {
             throw std::invalid_argument("Index out of range!");

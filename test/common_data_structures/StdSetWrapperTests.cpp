@@ -132,14 +132,3 @@ TEST_CASE(
     set.at(1) = 3;
     CHECK(set.at(1).getData() == 3);
 }
-
-TEST_CASE(
-    "common_data_structures_implementations::StdSetWrapper can be accessed through Set interface")
-{
-    common_data_structures_implementations::StdSetWrapper<CustomTestClass> set;
-    common_data_structures::Set<CustomTestClass> &interface = set;
-    interface.insert(CustomTestClass(1));
-    interface.insert(CustomTestClass(2));
-
-    CHECK(interface.size() == 2);
-}
