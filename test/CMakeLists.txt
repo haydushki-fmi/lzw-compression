@@ -9,16 +9,6 @@ target_link_libraries(
                 archiving
 )
 
-# Currently all .cpp files are listed here.
-# You may want to switch to a more flexible configuration if you work with a large number of packages/files
-target_sources(
-        test_target
-        PRIVATE
-        common_data_structures/BTreeNodeTests.cpp
-        common_data_structures/StdSetWrapperTests.cpp
-)
-
-
 target_include_directories(
         test_target
         PRIVATE
@@ -27,6 +17,7 @@ target_include_directories(
 
 add_subdirectory(compression)
 add_subdirectory(archiving)
+add_subdirectory(common_data_structures)
 
 # Automatically register all tests
 catch_discover_tests(test_target)
