@@ -2,10 +2,11 @@
 #define FILESYSTEM_HPP
 
 #include "archiving/ArchiveItem.hpp"
-#include "common_data_structures/SetFactory.hpp"
+
 #include "compression/implementations/LZWCompressor.hpp"
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,9 +15,10 @@ namespace fs = std::filesystem;
 
 namespace archiving {
 
-const std::string DEFAULT_SET_TYPE = "StdSetWrapper";
-
 // TODO: Testing?
+/**
+ * @brief Represens a filesystem for an archive. Holds information about files in the archive.
+ */
 template<class SetType>
 class FileSystem
 {
@@ -215,6 +217,21 @@ public:
 
         for (const auto item : this->set) {
             this->decompressItem(item->getFileRelativePath(), archivePath);
+        }
+    }
+
+    /**
+     * @brief Prints info about archive items and their sizes.
+     */
+    void printAllInfo() const
+    {
+        std::cout << "ARCHIVE INFO:" << std::endl;
+        std::cout << std::setw(40) << "File name" << std::setw(20) << "Uncompressed size"
+                  << std::setw(20) << "Compressed size" << std::endl;
+        for (const auto item : this->set) {
+            std::cout << std::setw(40) << item->getFileRelativePath() << std::setw(20)
+                      << item->getRawSize() << std::setw(20) << item->getCompressedSize()
+                      << std::endl;
         }
     }
 
