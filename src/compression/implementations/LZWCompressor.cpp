@@ -101,7 +101,7 @@ void compression_implementations::LZWCompressor::decompress(std::istream &in,
 
     std::vector<char> currentString;
     CodeType currentKey;
-    unsigned int bytesRead = 0;
+    unsigned int bytesRead = sizeof(CodeType);
 
     while (in.read(reinterpret_cast<char *>(&currentKey), sizeof(CodeType))
            && bytesRead <= bytesToRead) {
