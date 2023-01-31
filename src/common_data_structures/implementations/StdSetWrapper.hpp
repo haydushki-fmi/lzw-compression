@@ -25,6 +25,10 @@ public:
     }
 
 public:
+    /**
+     * @brief Insert an item into the set.
+     * @param item Item to be inserted.
+     */
     void insert(const T &item)
     {
         T *toAdd = new T(item);
@@ -35,8 +39,17 @@ public:
         }
     }
 
+    /**
+     * @brief Check if an item is present in the set.
+     * @param item Item to check for.
+     * @return True if item is present in the set.
+     */
     bool contains(const T &item) const { return this->search(item) != nullptr; }
 
+    /**
+     * @brief Remove an item from the set.
+     * @param item Item to be removed.
+     */
     void remove(const T &item)
     {
         T *toDelete = this->search(item);
@@ -46,6 +59,11 @@ public:
         }
     }
 
+    /**
+     * @brief Search for an item in the set.
+     * @param item Item to search for.
+     * @return Pointer to the desired item. Nullptr if item doesn't exist.
+     */
     const T *search(const T &item) const
     {
         for (auto i : this->data) {
@@ -55,6 +73,12 @@ public:
         }
         return nullptr;
     }
+
+    /**
+     * @brief Search for an item in the set.
+     * @param item Item to search for.
+     * @return Pointer to the desired item. Nullptr if item doesn't exist.
+     */
     T *search(const T &item)
     {
         for (auto i : this->data) {
@@ -65,40 +89,30 @@ public:
         return nullptr;
     }
 
+    /**
+     * @brief Get the number of items in the set.
+     * @return Size of the set.
+     */
     std::size_t size() const { return this->data.size(); }
 
-    const T &at(std::size_t index) const
-    {
-        if (index >= this->size()) {
-            throw std::invalid_argument("Index out of range!");
-        }
-
-        std::size_t i = 0;
-        for (auto item : this->data) {
-            if (i == index) {
-                return *item;
-            }
-            i++;
-        }
-    }
-    T &at(std::size_t index)
-    {
-        if (index >= this->size()) {
-            throw std::invalid_argument("Index out of range!");
-        }
-
-        std::size_t i = 0;
-        for (auto item : this->data) {
-            if (i == index) {
-                return *item;
-            }
-            i++;
-        }
-    }
-
+    /**
+     * @brief Iterator begin.
+     */
     auto begin() { return this->data.begin(); }
+
+    /**
+     * @brief Iterator end.
+     */
     auto end() { return this->data.end(); }
+
+    /**
+     * @brief Const iterator begin.
+     */
     auto begin() const { return this->data.cbegin(); }
+
+    /**
+     * @brief Const iterator end.
+     */
     auto end() const { return this->data.cend(); }
 
 private:

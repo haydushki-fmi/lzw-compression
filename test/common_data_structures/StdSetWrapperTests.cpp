@@ -98,37 +98,3 @@ TEST_CASE("common_data_structures_implementations::StdSetWrapper::contains() ret
         CHECK_FALSE(result);
     }
 }
-
-TEST_CASE("common_data_structures_implementations::StdSetWrapper::at() gives access to item with a "
-          "valid index")
-{
-    common_data_structures_implementations::StdSetWrapper<CustomTestClass> set;
-    set.insert(CustomTestClass(1));
-    set.insert(CustomTestClass(2));
-
-    CHECK(set.at(0).getData() == 1);
-    CHECK(set.at(1).getData() == 2);
-}
-
-TEST_CASE(
-    "common_data_structures_implementations::StdSetWrapper::at() throws when index is invalid")
-{
-    common_data_structures_implementations::StdSetWrapper<CustomTestClass> set;
-
-    CHECK_THROWS_AS(set.at(0), std::invalid_argument);
-
-    set.insert(CustomTestClass(1));
-
-    CHECK_THROWS_AS(set.at(1), std::invalid_argument);
-}
-
-TEST_CASE(
-    "common_data_structures_implementations::StdSetWrapper items can be modified through at()")
-{
-    common_data_structures_implementations::StdSetWrapper<CustomTestClass> set;
-    set.insert(CustomTestClass(1));
-    set.insert(CustomTestClass(2));
-
-    set.at(1) = 3;
-    CHECK(set.at(1).getData() == 3);
-}
