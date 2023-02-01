@@ -30,6 +30,11 @@ public:
      */
     bool colour = 1;
 
+    /**
+     * @brief Pointer to the parent node of this node.
+     */
+    RBNode *parent = nullptr;
+
 public:
     /**
      * @brief Constructs a RBNode with default data.
@@ -56,6 +61,23 @@ public:
         : data(data)
         , left(left)
         , right(right)
+    {
+        this->setColour();
+    }
+
+    // TODO: Add tests for this ctor
+    /**
+     * @brief Constructs a RBNode with specified data and children.
+     * @param data Data for the node to hold
+     * @param left Left child of the node
+     * @param right Right child of the node
+     * @param parent Parent of the node
+     */
+    RBNode(const T &data, RBNode *left, RBNode *right, RBNode *parent)
+        : data(data)
+        , left(left)
+        , right(right)
+        , parent(parent)
     {
         this->setColour();
     }
