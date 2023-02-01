@@ -6,5 +6,6 @@ target_sources(
         Sortable.hpp
         implementations/BTreeNode.hpp
         implementations/StdSetWrapper.hpp
+        implementations/RBNode.hpp
         unused.cpp
 )
