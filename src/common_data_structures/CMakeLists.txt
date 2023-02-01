@@ -7,5 +7,6 @@ target_sources(
         implementations/BTreeNode.hpp
         implementations/StdSetWrapper.hpp
         implementations/RBNode.hpp
+        implementations/RBNodeOperations.hpp
         unused.cpp
 )

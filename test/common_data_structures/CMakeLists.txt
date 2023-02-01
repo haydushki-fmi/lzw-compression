@@ -6,5 +6,6 @@ target_sources(
         StdSetWrapperTests.cpp
         RBNodeTests.cpp
         SampleRBTree.hpp
+        RBNodeOperationsTests.cpp
 )
 
