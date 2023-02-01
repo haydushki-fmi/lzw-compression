@@ -5,5 +5,6 @@ target_sources(
         BTreeNodeTests.cpp
         StdSetWrapperTests.cpp
         RBNodeTests.cpp
+        SampleRBTree.hpp
 )
 
