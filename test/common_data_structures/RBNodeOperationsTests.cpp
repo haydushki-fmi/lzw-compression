@@ -124,13 +124,11 @@ TEST_CASE("RBNodeOPerations::findPointerToWithParent() returns the correct posit
     CHECK(&t.j == ptr);
 }
 
-// TODO: Tests for rotations
-
 TEST_CASE("RBNodeOPerations::rotateLeft() correctly rotates left", "[RBTree][RBNodeOperations]")
 {
     SampleRBTree t;
 
-    RBNodeOPerations<int>::rotateLeft(&t.c);
+    RBNodeOPerations<int>::rotateLeft(t.rootptr, &t.c);
     CHECK(areSameObject(*t.c.parent, t.g));
     CHECK(areSameObject(*t.c.left, t.f));
     CHECK(areSameObject(*t.c.right, t.i));
@@ -143,7 +141,7 @@ TEST_CASE("RBNodeOPerations::rotateRight() correctly rotates left", "[RBTree][RB
 {
     SampleRBTree t;
 
-    RBNodeOPerations<int>::rotateRight(&t.b);
+    RBNodeOPerations<int>::rotateRight(t.rootptr, &t.b);
     CHECK(areSameObject(*t.b.parent, t.d));
     CHECK(areSameObject(*t.b.left, t.h));
     CHECK(areSameObject(*t.b.right, t.e));

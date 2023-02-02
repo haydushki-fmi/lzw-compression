@@ -64,20 +64,50 @@ public:
 
     /**
      * @brief Rotate left around a node.
+     * @param rootptr Pointer to the root of the (sub)tree
      * @param nodeAround Node to rotate around
      */
-    static void rotateLeft(RBNode<T> *nodeAround)
+    static void rotateLeft(RBNode<T> *&rootptr, RBNode<T> *nodeAround)
     {
-        // TODO: implement
+        RBNode<T> *y = nodeAround->right;
+        nodeAround->right = y->left;
+        if (y->left != nullptr) {
+            y->left->parent = nodeAround;
+        }
+        y->parent = nodeAround->parent;
+        if (nodeAround->parent == nullptr) {
+            rootptr = y;
+        } else if (nodeAround == nodeAround->parent->left) {
+            nodeAround->parent->left = y;
+        } else {
+            nodeAround->parent->right = y;
+        }
+        y->left = nodeAround;
+        nodeAround->parent = y;
     }
 
     /**
      * @brief Rotate right around a node.
+     * @param rootptr Pointer to the root of the (sub)tree
      * @param nodeAround Node to rotate around
      */
-    static void rotateRight(RBNode<T> *nodeAround)
+    static void rotateRight(RBNode<T> *&rootptr, RBNode<T> *nodeAround)
     {
-        // TODO: implement
+        RBNode<T> *y = nodeAround->left;
+        nodeAround->left = y->right;
+        if (y->right != nullptr) {
+            y->right->parent = nodeAround;
+        }
+        y->parent = nodeAround->parent;
+        if (nodeAround->parent == nullptr) {
+            rootptr = y;
+        } else if (nodeAround == nodeAround->parent->right) {
+            nodeAround->parent->right = y;
+        } else {
+            nodeAround->parent->left = y;
+        }
+        y->right = nodeAround;
+        nodeAround->parent = y;
     }
 
     /**
