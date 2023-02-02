@@ -117,7 +117,7 @@ TEST_CASE("BinarySearchTree::Iterator can be used to iterate all values stored i
     auto valueIterator = sample.values.begin();
 
     for (auto it = sample.tree.begin(); it != sample.tree.end(); ++it) {
-        CHECK(*it == *valueIterator);
+        CHECK(**it == *valueIterator);
         ++valueIterator;
     }
 

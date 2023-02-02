@@ -26,7 +26,7 @@ public:
             : it(startFrom)
         {}
 
-        T &operator*() { return it->data; }
+        T *operator*() { return &it->data; }
 
         T *operator->() { return &it->data; }
 
