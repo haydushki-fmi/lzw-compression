@@ -158,13 +158,79 @@ TEST_CASE("RBNodeOPerations::insert() correctly inserts into an empty tree",
 
     RBNodeOPerations<int>::insert(rootptr, node);
 
-    REQUIRE(rootptr == &node);
+    CHECK(rootptr == &node);
+    CHECK(rootptr->isBlack());
+    CHECK(rootptr->parent == nullptr);
 }
 
 TEST_CASE("RBNodeOPerations::insert() correctly inserts into a non-empty tree",
           "[RBTree][RBNodeOperations]")
 {
-    // TODO: checks for place, rotation and colour
+    SECTION("Left of D")
+    {
+        SampleRBTree t;
+        RBNode<int> node(-1);
+
+        RBNodeOPerations<int>::insert(t.rootptr, node);
+
+        CHECK(areSameObject(*t.d.left, node));
+        CHECK(node.isRed());
+        CHECK(t.d.isBlack());
+        CHECK(t.d.right->isRed());
+        CHECK(t.b.isRed());
+    }
+
+    SECTION("Right of E")
+    {
+        SampleRBTree t;
+        RBNode<int> node(12);
+
+        RBNodeOPerations<int>::insert(t.rootptr, node);
+
+        CHECK(areSameObject(*t.e.right, node));
+        CHECK(node.isRed());
+        CHECK(t.e.isBlack());
+        CHECK(t.e.right->isRed());
+        CHECK(t.b.isRed());
+    }
+
+    SECTION("Right of I")
+    {
+        // More complex case where more nodes change colours
+        SampleRBTree t;
+        RBNode<int> node(23);
+
+        RBNodeOPerations<int>::insert(t.rootptr, node);
+
+        CHECK(areSameObject(*t.i.right, node));
+        CHECK(node.isRed());
+        CHECK(t.b.isBlack());
+        CHECK(t.c.isBlack());
+        CHECK(t.g.isRed());
+        CHECK(t.i.isBlack());
+        CHECK(t.j.isBlack());
+    }
+
+    SECTION("Two inserts to the right")
+    {
+        // Colour change + rotation
+        SampleRBTree t;
+        RBNode<int> node1(28);
+        RBNode<int> node2(29);
+
+        RBNodeOPerations<int>::insert(t.rootptr, node1);
+        RBNodeOPerations<int>::insert(t.rootptr, node2);
+
+        CHECK(areSameObject(*t.g.right, node1));
+        CHECK(areSameObject(*t.g.right->right, node2));
+        CHECK(node1.isBlack());
+        CHECK(node2.isRed());
+        CHECK(t.b.isBlack());
+        CHECK(t.c.isBlack());
+        CHECK(t.g.isRed());
+        CHECK(t.i.isBlack());
+        CHECK(t.j.isRed());
+    }
 }
 
 TEST_CASE("RBNodeOPerations::release() does not throw on nullptr", "[RBTree][RBNodeOperations]")

@@ -117,8 +117,62 @@ public:
      */
     static void insert(RBNode<T> *&rootptr, RBNode<T> &node)
     {
-        findPointerTo(rootptr, node.data) = &node;
-        // TODO: rebalance
+        RBNode<T> *parentPointer = nullptr;
+        findPointerToWithParent(rootptr, node.data, parentPointer) = &node;
+        node.parent = parentPointer;
+
+        if (parentPointer == nullptr) {
+            node.colour = 0;
+            return; // New node is the new root of the tree
+        }
+
+        if (!node.getGrandparent()) {
+            return;
+        }
+
+        RBNode<T> *currentNode = &node;
+        RBNode<T> *uncle;
+
+        while (currentNode && currentNode->parent && currentNode->parent->isRed()) {
+            if (currentNode->parent == currentNode->getGrandparent()->right) {
+                uncle = currentNode->getGrandparent()->left;
+                if (uncle && uncle->isRed()) {
+                    uncle->colour = 0;
+                    currentNode->parent->colour = 0;
+                    currentNode->getGrandparent()->colour = 1;
+                    currentNode = currentNode->getGrandparent();
+                } else {
+                    if (currentNode == currentNode->parent->left) {
+                        currentNode = currentNode->parent;
+                        rotateRight(rootptr, currentNode);
+                    }
+                    currentNode->parent->colour = 0;
+                    currentNode->parent->parent->colour = 1;
+                    rotateLeft(rootptr, currentNode->getGrandparent());
+                }
+            } else {
+                uncle = currentNode->getGrandparent()->right;
+
+                if (uncle && uncle->isRed()) {
+                    uncle->colour = 0;
+                    currentNode->parent->colour = 0;
+                    currentNode->getGrandparent()->colour = 1;
+                    currentNode = currentNode->getGrandparent();
+                } else {
+                    if (currentNode == currentNode->parent->right) {
+                        currentNode = currentNode->parent;
+                        rotateLeft(rootptr, currentNode);
+                    }
+                    currentNode->parent->colour = 0;
+                    currentNode->getGrandparent()->colour = 1;
+                    rotateRight(rootptr, currentNode->getGrandparent());
+                }
+            }
+            if (currentNode == rootptr) {
+                break;
+            }
+        }
+        rootptr->colour = 0;
     }
 
     /**

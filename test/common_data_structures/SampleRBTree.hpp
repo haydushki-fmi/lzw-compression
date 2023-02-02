@@ -49,6 +49,12 @@ public:
         this->c = RBNode<ValueType>(17, &f, &g, &a);
         this->b = RBNode<ValueType>(8, &d, &e, &a);
         this->a = RBNode<ValueType>(13, &b, &c);
+
+        // Implicit colour setting - automatic colour setting doesn't work as nodes don't get added sequentially
+        b.colour = true;
+        c.colour = true;
+        e.colour = false;
+        f.colour = false;
     }
 };
 

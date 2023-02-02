@@ -115,6 +115,14 @@ public:
      */
     bool isBlack() { return !this->colour; }
 
+    // TODO: docs and testing
+    RBNode *getGrandparent()
+    {
+        if (this->parent)
+            return this->parent->parent;
+        return nullptr;
+    }
+
     /**
      * @brief Returns whether the node is a leaf.
      * @return True if the node has no children (is a leaf).
