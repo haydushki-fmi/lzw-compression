@@ -9,5 +9,6 @@ target_sources(
         implementations/RBNode.hpp
         implementations/RBNodeOperations.hpp
         implementations/RBNodeIterator.hpp
+        implementations/RBTree.hpp
         unused.cpp
 )

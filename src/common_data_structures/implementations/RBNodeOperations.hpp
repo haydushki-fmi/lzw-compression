@@ -39,6 +39,14 @@ public:
         return findPointerTo(startFrom->whichSuccessorWouldStore(value), value);
     }
 
+    static RBNode<T> *const &findPointerTo(RBNode<T> *const &startFrom, const T &value)
+    {
+        if (startFrom == nullptr || startFrom->data == value) {
+            return startFrom;
+        }
+        return findPointerTo(startFrom->whichSuccessorWouldStore(value), value);
+    }
+
     /**
      * @brief Returns a reference to the pointer to which a given value is or would be attached and finds the parent node.
      * @param startFrom Pointer to the root element of the tree
