@@ -2,11 +2,13 @@
 #define ENGINE_HPP
 
 #include "archiving/FileSystem.hpp"
+#include "common_data_structures/implementations/RBTree.hpp"
+#include "common_data_structures/implementations/StdSetWrapper.hpp"
 
 namespace engine {
 
-using fileSystemSetType
-    = common_data_structures_implementations::StdSetWrapper<archiving::ArchiveItem>;
+using fileSystemSetType = RBTree<archiving::ArchiveItem>;
+//    = common_data_structures_implementations::StdSetWrapper<archiving::ArchiveItem>;
 
 // TODO: Testing?
 class Engine
@@ -22,6 +24,11 @@ public:
 
 public:
     ~Engine();
+
+private:
+    void demoCompressFiles() const;
+    void demoDecompressFiles() const;
+    void demoDecompressFilesInCustomDirectory() const;
 
 private:
     void clearFs();
