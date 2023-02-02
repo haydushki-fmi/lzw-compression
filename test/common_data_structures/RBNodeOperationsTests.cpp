@@ -105,6 +105,25 @@ TEST_CASE("RBNodeOPerations::findPointerTo() returns the correct position where 
     CHECK(areSameObject(t.j.right, RBNodeOPerations<int>::findPointerTo(t.rootptr, t.j.data + 1)));
 }
 
+TEST_CASE("RBNodeOPerations::findPointerToWithParent() returns the correct position where a node "
+          "should be inserted when it is not present in the tree",
+          "[RBTree][RBNodeOperations]")
+{
+    SampleRBTree t;
+    RBNode<int> *ptr = nullptr;
+
+    CHECK(
+        areSameObject(t.d.left,
+                      RBNodeOPerations<int>::findPointerToWithParent(t.rootptr, t.d.data - 1, ptr)));
+    CHECK(&t.d == ptr);
+
+    ptr = nullptr;
+    CHECK(
+        areSameObject(t.j.right,
+                      RBNodeOPerations<int>::findPointerToWithParent(t.rootptr, t.j.data + 1, ptr)));
+    CHECK(&t.j == ptr);
+}
+
 // TODO: Tests for rotations
 
 TEST_CASE("RBNodeOPerations::rotateLeft() correctly rotates left", "[RBTree][RBNodeOperations]")

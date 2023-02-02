@@ -40,6 +40,29 @@ public:
     }
 
     /**
+     * @brief Returns a reference to the pointer to which a given value is or would be attached and finds the parent node.
+     * @param startFrom Pointer to the root element of the tree
+     * @param value
+     * @param parent Pointer to the parent node will be written onto it.
+     * @return Reference to a pointer of a node where the value is present or a pointer where it should be added
+     */
+    static RBNode<T> *&findPointerToWithParent(RBNode<T> *&startFrom,
+                                               const T &value,
+                                               RBNode<T> *&parent)
+    {
+        RBNode<T> **result = &startFrom;
+        RBNode<T> **previousResult = nullptr;
+
+        while (*result != nullptr && (*result)->data != value) {
+            previousResult = result;
+            result = &(*result)->whichSuccessorWouldStore(value);
+        }
+
+        parent = previousResult ? *previousResult : nullptr;
+        return *result;
+    }
+
+    /**
      * @brief Rotate left around a node.
      * @param nodeAround Node to rotate around
      */
