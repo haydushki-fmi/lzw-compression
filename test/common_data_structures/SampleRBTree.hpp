@@ -2,6 +2,7 @@
 #define SAMPLERBTREE_HPP
 
 #include "common_data_structures/implementations/RBNode.hpp"
+#include <array>
 
 /* Sample Red-Black tree:
  *
@@ -36,6 +37,8 @@ public:
     RBNode<ValueType> *rootptr = &a;
 
     const ValueType valueNotInTheTree = 1000000;
+
+    std::array<ValueType, 10> values{1, 6, 8, 11, 13, 15, 17, 22, 25, 27};
 
     SampleRBTree()
     {

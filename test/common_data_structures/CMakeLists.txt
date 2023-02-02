@@ -7,5 +7,6 @@ target_sources(
         RBNodeTests.cpp
         SampleRBTree.hpp
         RBNodeOperationsTests.cpp
+        RBNodeIteratorTests.cpp
 )
 

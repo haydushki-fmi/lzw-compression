@@ -8,5 +8,6 @@ target_sources(
         implementations/StdSetWrapper.hpp
         implementations/RBNode.hpp
         implementations/RBNodeOperations.hpp
+        implementations/RBNodeIterator.hpp
         unused.cpp
 )
