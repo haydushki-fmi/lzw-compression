@@ -3,7 +3,7 @@
 
 int main()
 {
-    engine::Engine engine = engine::Engine::getEngine();
+    engine::Engine engine;
     engine.run();
     std::cout << "Hello world!" << std::endl;
 }

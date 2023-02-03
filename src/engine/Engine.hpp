@@ -13,28 +13,19 @@ using fileSystemSetType = RBTree<archiving::ArchiveItem>;
 // TODO: Testing?
 class Engine
 {
-private:
+public:
     Engine();
 
 public:
-    static Engine &getEngine();
-
-public:
-    void run() const;
-
-public:
-    ~Engine();
+    void run();
 
 private:
-    void demoCompressFiles() const;
-    void demoDecompressFiles() const;
-    void demoDecompressFilesInCustomDirectory() const;
+    void demoCompressFiles();
+    void demoDecompressFiles();
+    void demoDecompressFilesInCustomDirectory();
 
 private:
-    void clearFs();
-
-private:
-    archiving::FileSystem<fileSystemSetType> *fs;
+    archiving::FileSystem<fileSystemSetType> fs;
 };
 } // namespace engine
 
