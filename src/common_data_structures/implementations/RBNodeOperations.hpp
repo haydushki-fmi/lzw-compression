@@ -39,6 +39,9 @@ public:
         return findPointerTo(startFrom->whichSuccessorWouldStore(value), value);
     }
 
+    /**
+     * @copydoc findPointerTo
+     */
     static RBNode<T> *const &findPointerTo(RBNode<T> *const &startFrom, const T &value)
     {
         if (startFrom == nullptr || startFrom->data == value) {

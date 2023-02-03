@@ -134,7 +134,7 @@ TEST_CASE("LZWCompressor::decompress() can decompreess a LZW compressed string",
 
     std::istringstream inputToDecompress(compressionOut.str());
     std::ostringstream outputDecompressed(std::ios_base::ate);
-    comp.decompress(inputToDecompress, 10, outputDecompressed); // NOTE: It works with just 8 bytes?
+    comp.decompress(inputToDecompress, 10, outputDecompressed);
 
     CHECK(outputDecompressed.str() == originalString);
 }
